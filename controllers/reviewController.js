@@ -1,13 +1,10 @@
-const Review = require("../models/review");
+"use strict";
+let Models = require("../models");
 
-// Create a new review
 const createReview = (data, res) => {
-  const reviewData = data; // Review data from the request body
+  const reviewData = data;
+  const newReview = new Models.Review(reviewData);
 
-  // Create a new review document
-  const newReview = new Review(reviewData);
-
-  // Save the review to the database
   newReview
     .save()
     .then((review) => {
@@ -19,9 +16,8 @@ const createReview = (data, res) => {
     });
 };
 
-// Get a list of all reviews
-const getReviews = (req, res) => {
-  Review.find()
+const getReviews = (res) => {
+  Models.Review.find()
     .then((reviews) => {
       res.status(200).json({ result: 200, data: reviews });
     })
@@ -31,11 +27,10 @@ const getReviews = (req, res) => {
     });
 };
 
-// Get a single review by ID
 const getReviewById = (req, res) => {
-  const reviewId = req.params.id; // Review ID from request parameters
+  const reviewId = req.params.id;
 
-  Review.findById(reviewId)
+  Models.Review.findById(reviewId)
     .then((review) => {
       if (!review) {
         res.status(404).json({ result: 404, error: "Review not found" });
@@ -49,12 +44,11 @@ const getReviewById = (req, res) => {
     });
 };
 
-// Update a review by ID
 const updateReviewById = (req, res) => {
-  const reviewId = req.params.id; // Review ID from request parameters
-  const updatedData = req.body; // Updated review data from request body
+  const reviewId = req.params.id;
+  const updatedData = req.body;
 
-  Review.findByIdAndUpdate(reviewId, updatedData, { new: true })
+  Models.Review.findByIdAndUpdate(reviewId, updatedData, { new: true })
     .then((updatedReview) => {
       if (!updatedReview) {
         res.status(404).json({ result: 404, error: "Review not found" });
@@ -68,11 +62,10 @@ const updateReviewById = (req, res) => {
     });
 };
 
-// Delete a review by ID
 const deleteReviewById = (req, res) => {
-  const reviewId = req.params.id; // Review ID from request parameters
+  const reviewId = req.params.id;
 
-  Review.findByIdAndRemove(reviewId)
+  Models.Review.findByIdAndRemove(reviewId)
     .then((deletedReview) => {
       if (!deletedReview) {
         res.status(404).json({ result: 404, error: "Review not found" });

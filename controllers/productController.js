@@ -1,16 +1,10 @@
-const Product = require("../models/product");
+"use strict";
+let Models = require("../models");
 
-// Create a new product
 const createProduct = (data, res) => {
+  const productData = data;
+  const newProduct = new Models.Product(productData);
 
-  const productData = data; // Product data from the request body
-
-  console.log(productData + " Hi");
-
-  // Create a new product document
-  const newProduct = new Product(productData);
-
-  // Save the product to the database
   newProduct
     .save()
     .then((product) => {
@@ -22,9 +16,8 @@ const createProduct = (data, res) => {
     });
 };
 
-// Get a list of all products
-const getProducts = (req, res) => {
-  Product.find()
+const getProducts = (res) => {
+  Models.Product.find()
     .then((products) => {
       res.status(200).json({ result: 200, data: products });
     })
@@ -34,11 +27,10 @@ const getProducts = (req, res) => {
     });
 };
 
-// Get a single product by ID
 const getProductById = (req, res) => {
-  const productId = req.params.id; // Product ID from request parameters
+  const productId = req.params.id;
 
-  Product.findById(productId)
+  Models.Product.findById(productId)
     .then((product) => {
       if (!product) {
         res.status(404).json({ result: 404, error: "Product not found" });
@@ -52,12 +44,11 @@ const getProductById = (req, res) => {
     });
 };
 
-// Update a product by ID
 const updateProductById = (req, res) => {
-  const productId = req.params.id; // Product ID from request parameters
-  const updatedData = req.body; // Updated product data from request body
+  const productId = req.params.id;
+  const updatedData = req.body;
 
-  Product.findByIdAndUpdate(productId, updatedData, { new: true })
+  Models.Product.findByIdAndUpdate(productId, updatedData, { new: true })
     .then((updatedProduct) => {
       if (!updatedProduct) {
         res.status(404).json({ result: 404, error: "Product not found" });
@@ -71,11 +62,10 @@ const updateProductById = (req, res) => {
     });
 };
 
-// Delete a product by ID
 const deleteProductById = (req, res) => {
-  const productId = req.params.id; // Product ID from request parameters
+  const productId = req.params.id;
 
-  Product.findByIdAndRemove(productId)
+  Models.Product.findByIdAndRemove(productId)
     .then((deletedProduct) => {
       if (!deletedProduct) {
         res.status(404).json({ result: 404, error: "Product not found" });
