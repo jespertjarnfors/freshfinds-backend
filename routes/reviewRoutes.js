@@ -14,12 +14,12 @@ router.post("/create", (req, res) => {
 });
 
 // Update an existing review by ID
-router.put("/:id", (req, res) => {
+router.put("/update/:id", (req, res) => {
   Controllers.reviewController.updateReviewById(req, res);
 });
 
 // Delete a review by ID
-router.delete("/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   Controllers.reviewController.deleteReviewById(req, res);
 });
 

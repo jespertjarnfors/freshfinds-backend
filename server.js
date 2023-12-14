@@ -10,7 +10,7 @@ app.use(express.json());
 let userRoutes = require('./routes/userRoutes')
 app.use('/api/users', userRoutes)
 
-let productRoutes = require('./routes/productRoutes');
+let productRoutes = require('./routes/productRoutes')
 app.use('/api/products', productRoutes);
 
 let orderRoutes = require('./routes/orderRoutes');

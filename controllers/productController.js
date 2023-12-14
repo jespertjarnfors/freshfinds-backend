@@ -1,8 +1,11 @@
 const Product = require("../models/product");
 
 // Create a new product
-const createProduct = (req, res) => {
-  const productData = req.body; // Product data from the request body
+const createProduct = (data, res) => {
+
+  const productData = data; // Product data from the request body
+
+  console.log(productData + " Hi");
 
   // Create a new product document
   const newProduct = new Product(productData);

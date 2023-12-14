@@ -14,12 +14,12 @@ router.post("/create", (req, res) => {
 });
 
 // Update an existing product by ID
-router.put("/:id", (req, res) => {
+router.put("/update/:id", (req, res) => {
   Controllers.productController.updateProductById(req, res);
 });
 
 // Delete a product by ID
-router.delete("/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   Controllers.productController.deleteProductById(req, res);
 });
 

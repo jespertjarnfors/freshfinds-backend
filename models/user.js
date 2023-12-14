@@ -9,12 +9,6 @@ const userSchema = new Schema({
     trim: true,
     required: true,
     unique: true,
-    validate: {
-      validator: (value) => {
-        return validator.isEmail(value); // Check if the value is a valid email
-      },
-      message: (props) => `${props.value} is not a valid email address!`,
-    },
   },
   password: { type: String },
   isProducer: { type: Boolean, required: true },

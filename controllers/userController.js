@@ -31,14 +31,20 @@ const updateUser = (req, res) => {
   console.log(req.body);
   Models.User.findByIdAndUpdate(req.params.id, req.body, {
     useFindAndModify: false,
+    new: true,
   })
-    .then((data) => res.send({ result: 200, data: data }))
+    .then((updatedUser) => {
+      if (!updatedUser) {
+        return res.status(404).json({ result: 404, error: "User not found" });
+      }
+      res.status(200).json({ result: 200, data: updatedUser });
+    })
     .catch((err) => {
       console.log(err);
-      res.send({ result: 500, error: err.message });
+      res.status(500).json({ result: 500, error: err.message });
     });
-};
-
+  };
+  
 const deleteUser = (req, res) => {
   //deletes the user matching the ID from the param
   Models.User.findByIdAndRemove(req.params.id, req.body, {

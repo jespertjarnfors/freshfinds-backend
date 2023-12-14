@@ -1,8 +1,11 @@
 const Order = require("../models/order"); 
 
 // Create a new order
-const createOrder = (req, res) => {
-  const orderData = req.body; // Order data from the request body
+const createOrder = (data, res) => {
+
+  // console.log('Incoming data: ' + data);
+
+  const orderData = data; // Order data from the request body
 
   // Create a new order document
   const newOrder = new Order(orderData);

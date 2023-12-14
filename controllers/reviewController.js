@@ -1,8 +1,8 @@
 const Review = require("../models/review");
 
 // Create a new review
-const createReview = (req, res) => {
-  const reviewData = req.body; // Review data from the request body
+const createReview = (data, res) => {
+  const reviewData = data; // Review data from the request body
 
   // Create a new review document
   const newReview = new Review(reviewData);
