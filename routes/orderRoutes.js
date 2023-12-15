@@ -20,7 +20,7 @@ router.put("/update/:id", (req, res) => {
 
 // Delete an order by ID
 router.delete("/delete/:id", (req, res) => {
-  Controllers.orderController.deleteOrderById(req, res);
+  Controllers.orderController.deleteOrder(req, res);
 });
 
 module.exports = router;

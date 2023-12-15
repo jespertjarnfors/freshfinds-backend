@@ -65,12 +65,12 @@ const updateReviewById = (req, res) => {
 const deleteReviewById = (req, res) => {
   const reviewId = req.params.id;
 
-  Models.Review.findByIdAndRemove(reviewId)
+  Models.Review.findByIdAndDelete(reviewId)
     .then((deletedReview) => {
       if (!deletedReview) {
         res.status(404).json({ result: 404, error: "Review not found" });
       } else {
-        res.status(200).json({ result: 200, data: deletedReview });
+        res.status(200).json({ result: 200, message: "Deleted review:", data: deletedReview });
       }
     })
     .catch((error) => {

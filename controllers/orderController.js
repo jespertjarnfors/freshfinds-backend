@@ -47,10 +47,10 @@ const updateOrder = (req, res) => {
 
 const deleteOrder = (req, res) => {
   //deletes the order matching the ID from the param
-  Models.Order.findByIdAndRemove(req.params.id, req.body, {
-    useFindAndModify: false,
-  })
-    .then((data) => res.send({ result: 200, data: data }))
+  Models.Order.findByIdAndDelete(req.params.id, { useFindAndModify: false })
+    .then((data) => {
+      res.send({ result: 200, message: 'Deleted order:', data: data })
+    })
     .catch((err) => {
       console.log(err);
       res.send({ result: 500, error: err.message });

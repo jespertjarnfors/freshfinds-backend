@@ -13,16 +13,16 @@ const getUsers = (res) => {
 
 const createUser = (data, res) => {
   //creates a new user using JSON data POSTed in request body
-  console.log('Incoming data:', data);
+  console.log("Incoming data:", data);
 
   new Models.User(data)
     .save()
     .then((createdUser) => {
-      console.log('Created user:', createdUser);
+      console.log("Created user:", createdUser);
       res.status(200).json({ result: 200, data: createdUser });
     })
     .catch((err) => {
-      console.error('Error creating user:', err);
+      console.error("Error creating user:", err);
       res.status(500).json({ result: 500, error: err.message });
     });
 };
@@ -43,14 +43,12 @@ const updateUser = (req, res) => {
       console.log(err);
       res.status(500).json({ result: 500, error: err.message });
     });
-  };
-  
+};
+
 const deleteUser = (req, res) => {
   //deletes the user matching the ID from the param
-  Models.User.findByIdAndRemove(req.params.id, req.body, {
-    useFindAndModify: false,
-  })
-    .then((data) => res.send({ result: 200, data: data }))
+  Models.User.findByIdAndDelete(req.params.id, { useFindAndModify: false })
+    .then((data) => res.send({ result: 200, message: "Deleted user", data: data }))
     .catch((err) => {
       console.log(err);
       res.send({ result: 500, error: err.message });

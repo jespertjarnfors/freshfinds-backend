@@ -65,12 +65,12 @@ const updateProductById = (req, res) => {
 const deleteProductById = (req, res) => {
   const productId = req.params.id;
 
-  Models.Product.findByIdAndRemove(productId)
+  Models.Product.findByIdAndDelete(productId)
     .then((deletedProduct) => {
       if (!deletedProduct) {
         res.status(404).json({ result: 404, error: "Product not found" });
       } else {
-        res.status(200).json({ result: 200, data: deletedProduct });
+        res.status(200).json({ result: 200, message: "Deleted product:", data: deletedProduct });
       }
     })
     .catch((error) => {
