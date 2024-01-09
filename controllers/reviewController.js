@@ -1,8 +1,8 @@
 "use strict";
 let Models = require("../models");
 
-const createReview = (data, res) => {
-  const reviewData = data;
+const createReview = (req, res) => {
+  const reviewData = req.body;
   const newReview = new Models.Review(reviewData);
 
   newReview
@@ -16,7 +16,7 @@ const createReview = (data, res) => {
     });
 };
 
-const getReviews = (res) => {
+const getReviews = (req, res) => {
   Models.Review.find()
     .then((reviews) => {
       res.status(200).json({ result: 200, data: reviews });

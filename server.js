@@ -1,12 +1,16 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require('cors');
 const app = express();
 let dbConnect = require("./dbConnect");
 
-// Routes
+
+// Enable all CORS requests
+app.use(cors());
 
 app.use(express.json());
 
+// Routes
 let userRoutes = require('./routes/userRoutes')
 app.use('/api/users', userRoutes)
 

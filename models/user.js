@@ -13,4 +13,11 @@ const userSchema = new Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
+userSchema.methods.calculateAvgRating = async function() {
+  const reviews = await mongoose.model('review').find({ targetUserId: this._id });
+  if (reviews.length === 0) return 0;
+  const sum = reviews.reduce((total, review) => total + review.rating, 0);
+  return parseFloat((sum / reviews.length).toFixed(2));
+};
+
 module.exports = mongoose.model("user", userSchema);

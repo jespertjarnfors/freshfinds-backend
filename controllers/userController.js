@@ -59,7 +59,7 @@ const createUser = async (data, res) => {
     const cognitoId = cognitoUser.UserAttributes.find(
       (attr) => attr.Name === "sub"
     ).Value;
-    const username = cognitoUser.Username; // Added this line
+    const username = cognitoUser.Username; 
 
     data.latitude = latitude;
     data.longitude = longitude;
@@ -67,7 +67,7 @@ const createUser = async (data, res) => {
     data.firstName = firstName;
     data.lastName = lastName;
     data.cognitoId = cognitoId;
-    data.username = username; // Added this line
+    data.username = username;
 
     const createdUser = await new Models.User(data).save();
     console.log("Created user:", createdUser);
@@ -109,9 +109,25 @@ const deleteUser = (req, res) => {
     });
 };
 
+// Function to get the average rating of a user
+const getUserAverageRating = async (req, res) => {
+  try {
+    // Find the user by ID
+    const user = await Models.User.findById(req.params.id);
+    // Calculate the average rating
+    const averageRating = await user.calculateAvgRating();
+    // Send the average rating in the response
+    res.status(200).json({ result: 200, averageRating });
+  } catch (err) {
+    console.error("Error getting user average rating:", err);
+    res.status(500).json({ result: 500, error: err.message });
+  }
+};
+
 module.exports = {
   getUsers,
   createUser,
   updateUser,
   deleteUser,
+  getUserAverageRating, // Export the new function
 };
