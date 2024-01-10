@@ -7,6 +7,8 @@ router.get("/", (req, res) => {
   Controllers.userController.getUsers(res);
 });
 
+router.get('/cognito/:cognitoId', Controllers.userController.getUserByCognitoId);
+
 router.get("/:id/average-rating", (req, res) => {
   Controllers.userController.getUserAverageRating(req, res);
 });
@@ -18,6 +20,8 @@ router.post("/create", (req, res) => {
 router.put("/update/:id", (req, res) => {
   Controllers.userController.updateUser(req, res);
 });
+
+router.put('/cognito/update/:cognitoId', Controllers.userController.updateUserByCognitoId);
 
 router.delete("/delete/:id", (req, res) => {
   Controllers.userController.deleteUser(req, res);

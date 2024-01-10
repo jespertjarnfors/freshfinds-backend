@@ -35,6 +35,23 @@ const getUsers = (res) => {
     });
 };
 
+// Function to get a user by Cognito ID from MongoDB
+const getUserByCognitoId = (req, res) => {
+  const cognitoId = req.params.cognitoId;
+
+  Models.User.findOne({ cognitoId: cognitoId })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ result: 404, message: "User not found" });
+      }
+      res.status(200).json({ result: 200, data: user });
+    })
+    .catch((err) => {
+      console.error("Error getting user by Cognito ID:", err);
+      res.status(500).json({ result: 500, error: err.message });
+    });
+};
+
 const createUser = async (data, res) => {
   //creates a new user using JSON data POSTed in request body
   console.log("Incoming data:", data);
@@ -97,6 +114,26 @@ const updateUser = (req, res) => {
     });
 };
 
+const updateUserByCognitoId = (req, res) => {
+  const { cognitoId } = req.params;
+  const updateData = req.body;
+
+  Models.User.findOneAndUpdate({ cognitoId: cognitoId }, updateData, {
+    useFindAndModify: false,
+    new: true,
+  })
+    .then((updatedUser) => {
+      if (!updatedUser) {
+        return res.status(404).json({ result: 404, error: "User not found" });
+      }
+      res.status(200).json({ result: 200, data: updatedUser });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ result: 500, error: err.message });
+    });
+};
+
 const deleteUser = (req, res) => {
   //deletes the user matching the ID from the param
   Models.User.findByIdAndDelete(req.params.id, { useFindAndModify: false })
@@ -129,5 +166,7 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
-  getUserAverageRating, // Export the new function
+  getUserAverageRating,
+  getUserByCognitoId,
+  updateUserByCognitoId
 };
