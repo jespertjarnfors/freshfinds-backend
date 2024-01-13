@@ -16,6 +16,20 @@ const productSchema = new Schema({
     enum: ["Delivery", "Shipping", "Pick-up"],
     required: true,
   },
+  location: {
+    type: {
+      type: String, 
+      enum: ['Point'], 
+      required: true
+    },
+    coordinates: {
+      type: [Number], // Array of numbers for longitude and latitude
+      required: true
+    }
+  }
 });
+
+// Geospatial index to allow searching by location
+productSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model("product", productSchema);

@@ -9,6 +9,10 @@ router.get("/", (req, res) => {
 
 router.get('/cognito/:cognitoId', Controllers.userController.getUserByCognitoId);
 
+router.get("/producers", (req, res) => {
+  Controllers.userController.getProducers(res);
+});
+
 router.get("/:id/average-rating", (req, res) => {
   Controllers.userController.getUserAverageRating(req, res);
 });

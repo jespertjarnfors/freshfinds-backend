@@ -37,6 +37,10 @@ const getUsers = (res) => {
 
 // Function to get a user by Cognito ID from MongoDB
 const getUserByCognitoId = (req, res) => {
+
+  /* Because of how AWS Cognito works, you need to pass the username as the value for cognitoId,
+  eg. { cognitoId: "username" }. This is because the username is the unique identifier for a user
+ */
   const cognitoId = req.params.cognitoId;
 
   Models.User.findOne({ cognitoId: cognitoId })
@@ -49,6 +53,16 @@ const getUserByCognitoId = (req, res) => {
     .catch((err) => {
       console.error("Error getting user by Cognito ID:", err);
       res.status(500).json({ result: 500, error: err.message });
+    });
+};
+
+const getProducers = (res) => {
+  // Finds all users where isProducer is true
+  Models.User.find({ isProducer: true })
+    .then((data) => res.send({ result: 200, data: data }))
+    .catch((err) => {
+      console.log(err);
+      res.send({ result: 500, error: err.message });
     });
 };
 
@@ -78,6 +92,7 @@ const createUser = async (data, res) => {
     ).Value;
     const username = cognitoUser.Username; 
 
+    // Converting the AWS properties to fit the MongoDB schema
     data.latitude = latitude;
     data.longitude = longitude;
     data.isProducer = isProducer;
@@ -168,5 +183,6 @@ module.exports = {
   deleteUser,
   getUserAverageRating,
   getUserByCognitoId,
-  updateUserByCognitoId
+  updateUserByCognitoId,
+  getProducers
 };
