@@ -12,19 +12,25 @@ const getOrders = (res) => {
 };
 
 const createOrder = (data, res) => {
-  //creates a new order using JSON data POSTed in request body
   console.log('Incoming data:', data);
 
-  new Models.Order(data)
-    .save()
-    .then((createdOrder) => {
-      console.log('Created order:', createdOrder);
-      res.status(200).json({ result: 200, data: createdOrder });
-    })
-    .catch((err) => {
-      console.error('Error creating order:', err);
-      res.status(500).json({ result: 500, error: err.message });
-    });
+  // Check if data is an array
+  if (!Array.isArray(data)) {
+    // If not an array, convert it to an array
+    data = [data];
+  }
+
+  Promise.all(data.map(orderData => {
+    return new Models.Order(orderData).save();
+  }))
+  .then(createdOrders => {
+    console.log('Created orders:', createdOrders);
+    res.status(200).json({ result: 200, data: createdOrders });
+  })
+  .catch(err => {
+    console.error('Error creating orders:', err);
+    res.status(500).json({ result: 500, error: err.message });
+  });
 };
 
 const updateOrder = (req, res) => {

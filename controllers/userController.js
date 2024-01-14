@@ -56,6 +56,23 @@ const getUserByCognitoId = (req, res) => {
     });
 };
 
+// Function to get a user by username from MongoDB
+const getUserByUsername = (req, res) => {
+  const username = req.params.username;
+
+  Models.User.findOne({ username: username })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ result: 404, message: "User not found" });
+      }
+      res.status(200).json({ result: 200, data: user });
+    })
+    .catch((err) => {
+      console.error("Error getting user by username:", err);
+      res.status(500).json({ result: 500, error: err.message });
+    });
+};
+
 const getProducers = (res) => {
   // Finds all users where isProducer is true
   Models.User.find({ isProducer: true })
@@ -184,5 +201,6 @@ module.exports = {
   getUserAverageRating,
   getUserByCognitoId,
   updateUserByCognitoId,
-  getProducers
+  getProducers,
+  getUserByUsername
 };

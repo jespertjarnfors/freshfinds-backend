@@ -9,6 +9,11 @@ router.get("/", (req, res) => {
 
 router.get('/cognito/:cognitoId', Controllers.userController.getUserByCognitoId);
 
+// Get a user by username
+router.get("/username/:username", (req, res) => {
+  Controllers.userController.getUserByUsername(req, res);
+});
+
 router.get("/producers", (req, res) => {
   Controllers.userController.getProducers(res);
 });
