@@ -8,6 +8,10 @@ router.get("/", (req, res) => {
   Controllers.orderController.getOrders(res);
 });
 
+router.get("/:id", (req, res) => {
+  Controllers.orderController.getOrderById(req, res);
+});
+
 // Create a new order
 router.post("/create", (req, res) => {
   Controllers.orderController.createOrder(req.body, res);

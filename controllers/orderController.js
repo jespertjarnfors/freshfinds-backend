@@ -11,6 +11,20 @@ const getOrders = (res) => {
     });
 };
 
+const getOrderById = (req, res) => {
+  Models.Order.findById(req.params.id)
+    .then((order) => {
+      if (!order) {
+        return res.status(404).json({ result: 404, error: "Order not found" });
+      }
+      res.status(200).json({ result: 200, data: order });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ result: 500, error: err.message });
+    });
+};
+
 const createOrder = (data, res) => {
   console.log('Incoming data:', data);
 
@@ -68,4 +82,5 @@ module.exports = {
   createOrder,
   updateOrder,
   deleteOrder,
+  getOrderById,
 };
