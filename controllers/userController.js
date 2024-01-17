@@ -35,6 +35,23 @@ const getUsers = (res) => {
     });
 };
 
+// Function to get a user by ID from MongoDB
+const getUserById = (req, res) => {
+  const userId = req.params.id;
+
+  Models.User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ result: 404, message: "User not found" });
+      }
+      res.status(200).json({ result: 200, data: user });
+    })
+    .catch((err) => {
+      console.error("Error getting user by ID:", err);
+      res.status(500).json({ result: 500, error: err.message });
+    });
+};
+
 // Function to get a user by Cognito ID from MongoDB
 const getUserByCognitoId = (req, res) => {
 
@@ -195,6 +212,7 @@ const getUserAverageRating = async (req, res) => {
 
 module.exports = {
   getUsers,
+  getUserById,
   createUser,
   updateUser,
   deleteUser,

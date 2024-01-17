@@ -12,6 +12,11 @@ router.get("/:id", (req, res) => {
   Controllers.orderController.getOrderById(req, res);
 });
 
+// Retrieve a list of orders by user ID
+router.get("/user/:userId", (req, res) => {
+  Controllers.orderController.getOrdersByUserId(req, res);
+});
+
 // Create a new order
 router.post("/create", (req, res) => {
   Controllers.orderController.createOrder(req.body, res);

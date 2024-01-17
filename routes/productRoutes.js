@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
   Controllers.productController.getProducts(res);
 });
 
+
 // Route to get products by distance
 router.get('/distance', Controllers.productController.getProductsByDistance);
 
