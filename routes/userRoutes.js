@@ -7,11 +7,6 @@ router.get("/", (req, res) => {
   Controllers.userController.getUsers(res);
 });
 
-// Route to get user by id from MongoDB
-router.get("/:id", (req, res) => {
-  Controllers.userController.getUserById(req, res);
-});
-
 // Route to get user by Cognito ID from MongoDB
 router.get('/cognito/:cognitoId', Controllers.userController.getUserByCognitoId);
 
@@ -21,7 +16,7 @@ router.get("/username/:username", (req, res) => {
 });
 
 router.get("/producers", (req, res) => {
-  Controllers.userController.getProducers(res);
+  Controllers.userController.getProducers(req, res);
 });
 
 // Route to get average rating for a user
@@ -41,6 +36,11 @@ router.put('/cognito/update/:cognitoId', Controllers.userController.updateUserBy
 
 router.delete("/delete/:id", (req, res) => {
   Controllers.userController.deleteUser(req, res);
+});
+
+// Route to get user by id from MongoDB
+router.get("/:id", (req, res) => {
+  Controllers.userController.getUserById(req, res);
 });
 
 module.exports = router;

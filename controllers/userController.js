@@ -90,7 +90,7 @@ const getUserByUsername = (req, res) => {
     });
 };
 
-const getProducers = (res) => {
+const getProducers = (req, res) => {
   // Finds all users where isProducer is true
   Models.User.find({ isProducer: true })
     .then((data) => res.send({ result: 200, data: data }))
