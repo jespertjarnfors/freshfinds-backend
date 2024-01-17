@@ -195,13 +195,24 @@ const deleteUser = (req, res) => {
     });
 };
 
-// Function to get the average rating of a user
 const getUserAverageRating = async (req, res) => {
   try {
     // Find the user by ID
     const user = await Models.User.findById(req.params.id);
+
+    // Fetch reviews for the user using Models.Review
+    const reviews = await Models.Review.find({
+      targetUserId: user._id,
+      status: "submitted", // Filter by status "submitted"
+    });
+
     // Calculate the average rating
-    const averageRating = await user.calculateAvgRating();
+    let averageRating = 0;
+    if (reviews.length > 0) {
+      const sum = reviews.reduce((total, review) => total + review.rating, 0);
+      averageRating = parseFloat((sum / reviews.length).toFixed(2));
+    }
+
     // Send the average rating in the response
     res.status(200).json({ result: 200, averageRating });
   } catch (err) {
