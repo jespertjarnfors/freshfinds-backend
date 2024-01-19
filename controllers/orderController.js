@@ -11,20 +11,56 @@ const getOrders = (res) => {
     });
 };
 
-const createOrder = (data, res) => {
-  //creates a new order using JSON data POSTed in request body
-  console.log('Incoming data:', data);
-
-  new Models.Order(data)
-    .save()
-    .then((createdOrder) => {
-      console.log('Created order:', createdOrder);
-      res.status(200).json({ result: 200, data: createdOrder });
+const getOrderById = (req, res) => {
+  Models.Order.findById(req.params.id)
+    .then((order) => {
+      if (!order) {
+        return res.status(404).json({ result: 404, error: "Order not found" });
+      }
+      res.status(200).json({ result: 200, data: order });
     })
     .catch((err) => {
-      console.error('Error creating order:', err);
+      console.log(err);
       res.status(500).json({ result: 500, error: err.message });
     });
+};
+
+const getOrdersByUserId = (req, res) => {
+  const userId = req.params.userId;
+
+  Models.Order.find({ userId: userId })
+    .then((orders) => {
+      if (!orders) {
+        return res.status(404).json({ result: 404, message: "Orders not found" });
+      }
+      res.status(200).json({ result: 200, data: orders });
+    })
+    .catch((err) => {
+      console.error("Error getting orders by user ID:", err);
+      res.status(500).json({ result: 500, error: err.message });
+    });
+};
+
+const createOrder = (data, res) => {
+  console.log('Incoming data:', data);
+
+  // Check if data is an array
+  if (!Array.isArray(data)) {
+    // If not an array, convert it to an array
+    data = [data];
+  }
+
+  Promise.all(data.map(orderData => {
+    return new Models.Order(orderData).save();
+  }))
+  .then(createdOrders => {
+    console.log('Created orders:', createdOrders);
+    res.status(200).json({ result: 200, data: createdOrders });
+  })
+  .catch(err => {
+    console.error('Error creating orders:', err);
+    res.status(500).json({ result: 500, error: err.message });
+  });
 };
 
 const updateOrder = (req, res) => {
@@ -47,10 +83,10 @@ const updateOrder = (req, res) => {
 
 const deleteOrder = (req, res) => {
   //deletes the order matching the ID from the param
-  Models.Order.findByIdAndRemove(req.params.id, req.body, {
-    useFindAndModify: false,
-  })
-    .then((data) => res.send({ result: 200, data: data }))
+  Models.Order.findByIdAndDelete(req.params.id, { useFindAndModify: false })
+    .then((data) => {
+      res.send({ result: 200, message: 'Deleted order:', data: data })
+    })
     .catch((err) => {
       console.log(err);
       res.send({ result: 500, error: err.message });
@@ -62,4 +98,6 @@ module.exports = {
   createOrder,
   updateOrder,
   deleteOrder,
+  getOrderById,
+  getOrdersByUserId
 };

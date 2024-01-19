@@ -8,6 +8,15 @@ router.get("/", (req, res) => {
   Controllers.orderController.getOrders(res);
 });
 
+router.get("/:id", (req, res) => {
+  Controllers.orderController.getOrderById(req, res);
+});
+
+// Retrieve a list of orders by user ID
+router.get("/user/:userId", (req, res) => {
+  Controllers.orderController.getOrdersByUserId(req, res);
+});
+
 // Create a new order
 router.post("/create", (req, res) => {
   Controllers.orderController.createOrder(req.body, res);
@@ -20,7 +29,7 @@ router.put("/update/:id", (req, res) => {
 
 // Delete an order by ID
 router.delete("/delete/:id", (req, res) => {
-  Controllers.orderController.deleteOrderById(req, res);
+  Controllers.orderController.deleteOrder(req, res);
 });
 
 module.exports = router;

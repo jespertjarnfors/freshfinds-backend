@@ -4,23 +4,24 @@ let router = express.Router();
 let Controllers = require("../controllers"); // index.js
 
 // Retrieve a list of all reviews
-router.get("/", (req, res) => {
-  Controllers.reviewController.getReviews(res);
-});
+router.get("/", Controllers.reviewController.getReviews);
+
+// Retrieve a review by id
+router.get("/:id", Controllers.reviewController.getReviewById);
+
+// Retrieve a list of reviews by user ID
+router.get("/user/:userId", Controllers.reviewController.getReviewsByUserId);
+
+// Retrieve a review by order ID
+router.get("/order/:orderId", Controllers.reviewController.getReviewByOrderId);
 
 // Create a new review
-router.post("/create", (req, res) => {
-  Controllers.reviewController.createReview(req.body, res);
-});
+router.post("/create", Controllers.reviewController.createReview);
 
 // Update an existing review by ID
-router.put("/update/:id", (req, res) => {
-  Controllers.reviewController.updateReviewById(req, res);
-});
+router.put("/update/:id", Controllers.reviewController.updateReviewById);
 
 // Delete a review by ID
-router.delete("/delete/:id", (req, res) => {
-  Controllers.reviewController.deleteReviewById(req, res);
-});
+router.delete("/delete/:id", Controllers.reviewController.deleteReviewById);
 
 module.exports = router;

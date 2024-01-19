@@ -27,6 +27,36 @@ const getProducts = (res) => {
     });
 };
 
+// Function to get products based on user location and distance
+const getProductsByDistance = async (req, res) => {
+  const { lat, lng, distance } = req.query; // Get lat, lng, and distance from query parameters
+
+  try {
+    const products = await Models.Product.find({
+      location: {
+        $nearSphere: {
+          $geometry: {
+            type: "Point",
+            coordinates: [lng, lat] // longitude first, then latitude
+          },
+          $maxDistance: distance * 1000 // convert km to meters
+        }
+      }
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: products
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'Error fetching products',
+      error: error.message
+    });
+  }
+};
+
 const getProductById = (req, res) => {
   const productId = req.params.id;
 
@@ -65,12 +95,12 @@ const updateProductById = (req, res) => {
 const deleteProductById = (req, res) => {
   const productId = req.params.id;
 
-  Models.Product.findByIdAndRemove(productId)
+  Models.Product.findByIdAndDelete(productId)
     .then((deletedProduct) => {
       if (!deletedProduct) {
         res.status(404).json({ result: 404, error: "Product not found" });
       } else {
-        res.status(200).json({ result: 200, data: deletedProduct });
+        res.status(200).json({ result: 200, message: "Deleted product:", data: deletedProduct });
       }
     })
     .catch((error) => {
@@ -83,6 +113,7 @@ module.exports = {
   createProduct,
   getProducts,
   getProductById,
+  getProductsByDistance,
   updateProductById,
   deleteProductById,
 };
