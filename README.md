@@ -18,7 +18,7 @@ Review and rating system for orders and producers.
 Link to frontend: https://github.com/jespertjarnfors/freshfinds-frontend
 
 bash, Copy code or git clone https://github.com/jespertjarnfors/freshfinds-backend.git
-- `cd freshfinds`
+- `cd backend`
 - `npm install` both frontend and backend
 - `npm run dev` for frontend
 - `npm start` for backend
