@@ -1,7 +1,4 @@
-# FreshFinds
-
-![Screenshot 2024-01-20 001925](https://github.com/jespertjarnfors/freshfinds-frontend/assets/139288555/756d5979-0dd8-449c-8cd5-2c33606a53cb)
-
+# FreshFinds Backend
 
 A full-stack web application designed to connect local produce buyers with nearby producers. Built with React, Node.js, Express, MongoDB, TailwindCSS, and Google Maps API, the app features user authentication, product listings, a shopping cart, order management, and an interactive map for locating producers. 
 
