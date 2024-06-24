@@ -6,8 +6,14 @@ const dbConnect = require("./dbConnect");
 
 const app = express();
 
-// Enable all CORS requests
-app.use(cors());
+// Configuring CORS to allow requests from frontend
+const corsOptions = {
+  origin: ['http://localhost:5173'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
+};
+
+app.use(cors(corsOptions));
 
 // Middleware to parse JSON
 app.use(express.json());
