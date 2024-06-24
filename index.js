@@ -35,9 +35,11 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to my MongoDB application." });
 });
 
-// Seeding Data (Optional)
-// const seedDatabase = require('./seeds/seedDatabase');
-// seedDatabase();
+// Test route for CORS
+app.options('*', cors(corsOptions));
+app.get('/test-cors', (req, res) => {
+  res.send('CORS is configured correctly.');
+});
 
 // Start Server
 const PORT = process.env.PORT || 3000;
