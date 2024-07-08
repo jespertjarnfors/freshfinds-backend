@@ -54,8 +54,3 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
-
-// Test endpoint without CORS restrictions
-app.get('/test', (req, res) => {
-  res.send('This endpoint is accessible without CORS restrictions.');
-});
