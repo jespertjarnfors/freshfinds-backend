@@ -8,7 +8,7 @@ const app = express();
 
 // Configuring CORS to allow requests from frontend
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://freshfinds-frontend.vercel.app'],
+  origin: ['http://localhost:5173', 'https://freshfinds-frontend-jesper-tjarnfors-projects.vercel.app', 'https://freshfinds-frontend-git-main-jesper-tjarnfors-projects.vercel.app', 'https://freshfinds-application.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 };
